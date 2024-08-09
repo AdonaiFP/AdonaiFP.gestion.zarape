@@ -96,7 +96,7 @@ let alimentos = [
 /**********************************************************/
 /* Configuración de color de fondo aleatorio              */
 /**********************************************************/
-const colors = ['#FA4032'];
+const colors = ['#FA812F'];
 const randomColor = colors[Math.floor(Math.random() * colors.length)];
 document.body.style.backgroundColor = randomColor;
 
@@ -126,7 +126,7 @@ function renderTable() {
 
         // Aplicar estilo de fondo rojo a las etiquetas th
         const thElements = document.querySelectorAll('th');
-        thElements.forEach(th => th.style.backgroundColor = 'red');
+        thElements.forEach(th => th.style.backgroundColor = '#FA812F');
     });
 
     logAlimentosToConsole();
