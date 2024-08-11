@@ -1,5 +1,5 @@
 /**********************************************************/
-/* Axolotl Technologies                                   */
+/* Axolotl Technologies */
 /* 11/08/2024 */
 /* Rey Adonaí Floreano Parra */
 /* Gestión de Combos y Menús de Alimentos y Bebidas */
@@ -70,9 +70,9 @@ const ALIMENTOS = [
   /**********************************************************/
   const COLORS = ['#FA812F'];
   const RANDOM_COLOR = COLORS[Math.floor(Math.random() * COLORS.length)];
-  document.body.style.backgroundColor = #FA812F;
+  document.body.style.backgroundColor = RANDOM_COLOR;
   const thElements = document.querySelectorAll('th');
-  thElements.forEach(th => th.style.backgroundColor = #FA812F);
+  thElements.forEach(th => th.style.backgroundColor = RANDOM_COLOR);
   
   /**********************************************************/
   /* Función para Renderizar la Tabla de Combos Activos */
