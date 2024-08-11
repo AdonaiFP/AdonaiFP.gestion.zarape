@@ -70,9 +70,9 @@ const ALIMENTOS = [
   /**********************************************************/
   const COLORS = ['#FA812F'];
   const RANDOM_COLOR = COLORS[Math.floor(Math.random() * COLORS.length)];
-  document.body.style.backgroundColor = RANDOM_COLOR;
+  document.body.style.backgroundColor = #FA812F;
   const thElements = document.querySelectorAll('th');
-  thElements.forEach(th => th.style.backgroundColor = RANDOM_COLOR);
+  thElements.forEach(th => th.style.backgroundColor = #FA812F);
   
   /**********************************************************/
   /* Función para Renderizar la Tabla de Combos Activos */
