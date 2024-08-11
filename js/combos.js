@@ -48,7 +48,7 @@ let combos = JSON.parse(text).combos.map((combo, index) => ({
         estatus: combo.estatus
     }));
 
-const colors = ['#FAAF08', '#FA812F', '#FA4032'];
+const colors = ['#FA812F'];
 const randomColor = colors[Math.floor(Math.random() * colors.length)];
 document.body.style.backgroundColor = randomColor;
 const thElements = document.querySelectorAll('th');
