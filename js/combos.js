@@ -1,5 +1,5 @@
 /**********************************************************/
-/* Axolotl Technologies */
+/* Axolotl Technologies                                   */
 /* 11/08/2024 */
 /* Rey Adonaí Floreano Parra */
 /* Gestión de Combos y Menús de Alimentos y Bebidas */
