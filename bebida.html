@@ -1,32 +1,32 @@
-/**********************************************************/
-/* Axolotl Technologies                                 */
-/* 11/08/2024                                           */
-/* Usuario                                              */
-/* Página de Gestión de Bebidas                         */
-/**********************************************************/
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!--/**********************************************************/
+    /* Axolotl Technologies                                    */
+    /* 11/08/2024                                              */
+    /* Rey Adonaí Floreano Parra                               */
+    /* Página de gestión de bebidas                            */
+    /**********************************************************/-->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Bebidas</title>
-    <!-- Enlace a la hoja de estilos de SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-    <!-- Enlace a la hoja de estilos personalizada -->
     <link rel="stylesheet" href="css/usuarios.css">
 </head>
 <body>
 
-    /**********************************************************/
-    /* Cabecera de la página                                */
-    /**********************************************************/
+    <!--/**********************************************************/
+    /* Sección de la Cabecera                                  */
+    /* Aquí se encuentran los elementos de la cabecera,        */
+    /* como el botón de inicio, título y barra de búsqueda.    */
+    /**********************************************************/-->
     <div class="header">
         <button onclick="location.href='principal.html'" class="icon-button">
             <img src="https://img.icons8.com/ios-filled/50/000000/home.png" alt="Home">
         </button>
         <div class="separador"></div>
-        <h1>Gestión de Bebidas</h1>
+        <h1>Gestión de Bebidas</h1> 
         <div class="separador2"></div>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Buscar en la tabla" onkeyup="searchTable()">
@@ -34,9 +34,11 @@
         </div>
     </div>
 
-    /**********************************************************/
-    /* Contenedor de la tabla de bebidas                    */
-    /**********************************************************/
+    <!--/**********************************************************/
+    /* Sección del Contenedor Blanco                           */
+    /* En esta sección se define la tabla de gestión de        */
+    /* bebidas, que se llenará dinámicamente con datos.        */
+    /**********************************************************/-->
     <div class="contenedor-blanco">
         <table id="userTable">
             <thead>
@@ -61,9 +63,13 @@
         </table>
     </div>
 
-    <!-- Enlace al archivo JavaScript que maneja la lógica de la página -->
+   <!-- /**********************************************************/
+    /* Inclusión de Scripts                                    */
+    /* Aquí se incluyen los archivos JavaScript necesarios     */
+    /* para el funcionamiento de la aplicación, incluyendo     */
+    /* la librería SweetAlert2 para los mensajes emergentes.   */
+    /**********************************************************/-->
     <script src="js/bebidas.js"></script>
-    <!-- Enlace al archivo JavaScript de SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </body>
