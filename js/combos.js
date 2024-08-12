@@ -1,12 +1,12 @@
 /**********************************************************/
-/* Axolotl Technologies */
-/* 11/08/2024 */
-/* Rey Adonaí Floreano Parra */
-/* Gestión de Combos y Menús de Alimentos y Bebidas */
+/* Axolotl Technologies                                    */
+/* 11/08/2024                                              */
+/* Rey Adonaí Floreano Parra                               */
+/* Gestión de Combos y Menús de Alimentos y Bebidas        */
 /**********************************************************/
 
 /**********************************************************/
-/* Constantes de Alimentos y Bebidas */
+/* Constantes de Alimentos y Bebidas                      */
 /**********************************************************/
 const ALIMENTOS = [
   { id: '1', nombre: 'Tacos de carne asada', precio: 3.99 },
@@ -35,7 +35,7 @@ const BEBIDAS = [
 ];
 
 /**********************************************************/
-/* Configuración de Combos a partir de una Cadena JSON */
+/* Configuración de Combos a partir de una Cadena JSON    */
 /**********************************************************/
 const TEXT_COMBOS = '{"combos" : [ ' +
   '{"nombre" : "Combo Tacos Clásicos", "descripcion" : "Tres tacos clásicos con una refrescante bebida.", "alimento" : "Tacos de carne asada", "cantA" : "3", "bebida" : "Agua de horchata", "cantB" : "1", "precio" : "12.56", "estatus" : "Activo"}, ' +
@@ -51,7 +51,7 @@ const TEXT_COMBOS = '{"combos" : [ ' +
   ']}';
 
 /**********************************************************/
-/* Inicialización de Combos con IDs Únicos */
+/* Inicialización de Combos con IDs Únicos                */
 /**********************************************************/
 let combos = JSON.parse(TEXT_COMBOS).combos.map((combo, index) => ({
   id: String(index + 1).padStart(4, '0'),
@@ -66,7 +66,7 @@ let combos = JSON.parse(TEXT_COMBOS).combos.map((combo, index) => ({
 }));
 
 /**********************************************************/
-/* Configuración de Colores para la Interfaz de Usuario */
+/* Configuración de Colores para la Interfaz de Usuario   */
 /**********************************************************/
 const COLORS = ['#FA812F'];
 const RANDOM_COLOR = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -74,15 +74,15 @@ document.body.style.backgroundColor = RANDOM_COLOR;
 document.querySelectorAll('th').forEach(th => th.style.backgroundColor = RANDOM_COLOR);
 
 /**********************************************************/
-/* Función para Renderizar la Tabla de Combos Activos */
+/* Función para Renderizar la Tabla de Combos Activos     */
 /**********************************************************/
 function renderTable() {
-  const tableBody = document.querySelector('#comboTable tbody');
-  tableBody.innerHTML = '';
+    const tableBody = document.querySelector('#comboTable tbody');
+    tableBody.innerHTML = '';
 
-  combos.filter(combo => combo.estatus === 'Activo').forEach(combo => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
+    combos.filter(combo => combo.estatus === 'Activo').forEach(combo => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
       <td>${combo.id}</td>
       <td>${combo.nombre}</td>
       <td>${combo.descripcion}</td>
@@ -99,124 +99,113 @@ function renderTable() {
         </button>
       </td>
     `;
-    tableBody.appendChild(row);
-  });
+        tableBody.appendChild(row);
+    });
 }
 
 /**********************************************************/
-/* Función para Agregar un Nuevo Combo */
+/* Función para Agregar un Nuevo Combo                    */
 /**********************************************************/
 function addCombo() {
-  const newId = (combos.length + 1).toString().padStart(4, '0');
-  const nombre = document.getElementById('addComboNombre').value;
-  const descripcion = document.getElementById('addComboDescripcion').value;
-  const alimento = document.getElementById('addComboAlimento').value;
-  const cantA = document.getElementById('addComboCantA').value;
-  const bebida = document.getElementById('addComboBebida').value;
-  const cantB = document.getElementById('addComboCantB').value;
-  const precio = document.getElementById('addComboPrecio').value;
-  const estatus = document.getElementById('addComboEstatus').value;
+    const newId = (combos.length + 1).toString().padStart(4, '0');
+    const nombre = document.getElementById('addComboNombre').value;
+    const descripcion = document.getElementById('addComboDescripcion').value;
+    const alimento = document.getElementById('addComboAlimento').value;
+    const cantA = document.getElementById('addComboCantA').value;
+    const bebida = document.getElementById('addComboBebida').value;
+    const cantB = document.getElementById('addComboCantB').value;
+    const precio = document.getElementById('addComboPrecio').value;
+    const estatus = document.getElementById('addComboEstatus').value;
 
-  // Validación de campos
-  if (!nombre || !descripcion || !alimento || !cantA || !bebida || !cantB || !precio || !estatus) {
-    alert('Por favor, complete todos los campos.');
-    return;
-  }
+    const nuevoCombo = {
+        id: newId,
+        nombre,
+        descripcion,
+        alimento,
+        cantA,
+        bebida,
+        cantB,
+        precio,
+        estatus
+    };
 
-  const newCombo = {
-    id: newId,
-    nombre,
-    descripcion,
-    alimento,
-    cantA,
-    bebida,
-    cantB,
-    precio,
-    estatus
-  };
-
-  combos.push(newCombo);
-  renderTable();
-  closeModal('addComboModal');
+    combos.push(nuevoCombo);
+    renderTable();
+    document.getElementById('addComboForm').reset();
 }
 
 /**********************************************************/
-/* Función para Editar un Combo Existente */
+/* Función para Editar un Combo Existente                 */
 /**********************************************************/
-function editCombo(id) {
-  const combo = combos.find(c => c.id === id);
-  if (!combo) {
-    alert('Combo no encontrado.');
-    return;
-  }
+function editCombo(comboId) {
+    const combo = combos.find(c => c.id === comboId);
 
-  document.getElementById('editComboId').value = combo.id;
-  document.getElementById('editComboNombre').value = combo.nombre;
-  document.getElementById('editComboDescripcion').value = combo.descripcion;
-  document.getElementById('editComboAlimento').value = combo.alimento;
-  document.getElementById('editComboCantA').value = combo.cantA;
-  document.getElementById('editComboBebida').value = combo.bebida;
-  document.getElementById('editComboCantB').value = combo.cantB;
-  document.getElementById('editComboPrecio').value = combo.precio;
-  document.getElementById('editComboEstatus').value = combo.estatus;
-
-  openModal('editComboModal');
+    if (combo) {
+        document.getElementById('editComboId').value = combo.id;
+        document.getElementById('editComboNombre').value = combo.nombre;
+        document.getElementById('editComboDescripcion').value = combo.descripcion;
+        document.getElementById('editComboAlimento').value = combo.alimento;
+        document.getElementById('editComboCantA').value = combo.cantA;
+        document.getElementById('editComboBebida').value = combo.bebida;
+        document.getElementById('editComboCantB').value = combo.cantB;
+        document.getElementById('editComboPrecio').value = combo.precio;
+        document.getElementById('editComboEstatus').value = combo.estatus;
+        $('#editComboModal').modal('show');
+    }
 }
 
 /**********************************************************/
-/* Función para Guardar los Cambios de Edición */
+/* Función para Guardar los Cambios de un Combo Editado   */
 /**********************************************************/
 function saveEditCombo() {
-  const id = document.getElementById('editComboId').value;
-  const combo = combos.find(c => c.id === id);
-  if (!combo) {
-    alert('Combo no encontrado.');
-    return;
-  }
+    const id = document.getElementById('editComboId').value;
+    const nombre = document.getElementById('editComboNombre').value;
+    const descripcion = document.getElementById('editComboDescripcion').value;
+    const alimento = document.getElementById('editComboAlimento').value;
+    const cantA = document.getElementById('editComboCantA').value;
+    const bebida = document.getElementById('editComboBebida').value;
+    const cantB = document.getElementById('editComboCantB').value;
+    const precio = document.getElementById('editComboPrecio').value;
+    const estatus = document.getElementById('editComboEstatus').value;
 
-  combo.nombre = document.getElementById('editComboNombre').value;
-  combo.descripcion = document.getElementById('editComboDescripcion').value;
-  combo.alimento = document.getElementById('editComboAlimento').value;
-  combo.cantA = document.getElementById('editComboCantA').value;
-  combo.bebida = document.getElementById('editComboBebida').value;
-  combo.cantB = document.getElementById('editComboCantB').value;
-  combo.precio = document.getElementById('editComboPrecio').value;
-  combo.estatus = document.getElementById('editComboEstatus').value;
+    const comboIndex = combos.findIndex(c => c.id === id);
 
-  renderTable();
-  closeModal('editComboModal');
+    if (comboIndex > -1) {
+        combos[comboIndex] = { id, nombre, descripcion, alimento, cantA, bebida, cantB, precio, estatus };
+        renderTable();
+        $('#editComboModal').modal('hide');
+    }
 }
 
 /**********************************************************/
-/* Función para Confirmar la Eliminación de un Combo */
+/* Función para Confirmar la Eliminación de un Combo      */
 /**********************************************************/
-function confirmDeleteCombo(id) {
-  const confirmDelete = confirm('¿Está seguro de que desea eliminar este combo?');
-  if (confirmDelete) {
-    deleteCombo(id);
-  }
+function confirmDeleteCombo(comboId) {
+    const combo = combos.find(c => c.id === comboId);
+
+    if (combo) {
+        const confirmation = confirm(`¿Está seguro de que desea eliminar el combo "${combo.nombre}"?`);
+        if (confirmation) {
+            deleteCombo(comboId);
+        }
+    }
 }
 
 /**********************************************************/
-/* Función para Eliminar un Combo */
+/* Función para Eliminar un Combo                         */
 /**********************************************************/
-function deleteCombo(id) {
-  combos = combos.filter(combo => combo.id !== id);
-  renderTable();
+function deleteCombo(comboId) {
+    const comboIndex = combos.findIndex(c => c.id === comboId);
+
+    if (comboIndex > -1) {
+        combos.splice(comboIndex, 1);
+        renderTable();
+    }
 }
 
 /**********************************************************/
-/* Funciones de Utilidad para Manejo de Modales */
+/* Inicialización de la Tabla                             */
 /**********************************************************/
-function openModal(modalId) {
-  document.getElementById(modalId).style.display = 'block';
-}
-
-function closeModal(modalId) {
-  document.getElementById(modalId).style.display = 'none';
-}
-
-/**********************************************************/
-/* Inicializar la Tabla al Cargar la Página */
-/**********************************************************/
-document.addEventListener('DOMContentLoaded', renderTable);
+document.addEventListener('DOMContentLoaded', () => {
+    renderTable();
+});
