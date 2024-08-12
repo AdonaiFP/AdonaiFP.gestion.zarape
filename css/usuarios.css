@@ -86,3 +86,48 @@
         th {
             color: white;
         }
+/
+/* Estilos para pantallas pequeñas, como móviles */
+@media only screen and (max-width: 600px) {
+    .header h1 {
+        font-size: 24px;
+    }
+    .search-container {
+        width: 100%;
+        text-align: center;
+    }
+    .contenedor-blanco {
+        padding: 10px;
+    }
+    #userTable {
+        width: 100%;
+        font-size: 14px;
+    }
+    #userTable th, #userTable td {
+        display: block;
+        width: 100%;
+    }
+    #userTable th {
+        text-align: left;
+    }
+    #userTable td img {
+        width: 100px; /* Ajustar tamaño de imágenes en móviles */
+    }
+}
+
+/* Estilos para tabletas */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    .header h1 {
+        font-size: 28px;
+    }
+    .contenedor-blanco {
+        padding: 20px;
+    }
+    #userTable {
+        width: 100%;
+        font-size: 16px;
+    }
+    #userTable td img {
+        width: 150px; /* Ajustar tamaño de imágenes en tabletas */
+    }
+}

@@ -302,4 +302,7 @@ function deleteCombo(id) {
 /**********************************************************/
 /* Inicialización de la tabla al cargar la página */
 /**********************************************************/
+<<<<<<< HEAD
 renderTable(); // Renderizar la tabla al cargar
+=======
+>>>>>>> 0bbd08462eec5b47b594b6f831e9a84892530d05

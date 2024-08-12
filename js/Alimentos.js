@@ -119,7 +119,7 @@ function renderTable() {
             <td>${alimento.estatus}</td>
             <td>
                 <button class="icon-button" onclick="editAlimento('${alimento.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
-                ${alimento.estatus === 'Activo' ? `<button class="icon-button" onclick="confirmDeleteAlimento('${alimento.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>` : ''}
+                <button class="icon-button" onclick="confirmDeleteAlimento('${alimento.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
             </td>
         `;
         tableBody.appendChild(row);
@@ -159,8 +159,7 @@ function openAlimentoForm(alimento = {}) {
                 <option value="Fruta" ${alimento.categoria === 'Fruta' ? 'selected' : ''}>Fruta</option>
             </select>
             <br>
-            <label for="estatus">Activo:</label>
-            <input type="checkbox" id="estatus" class="swal2-checkbox" ${alimento.estatus === 'Activo' ? 'checked' : ''}>
+            ${alimento.estatus === 'Inactivo' ? `<label for="estatus">Activar:</label><input type="checkbox" id="estatus" class="swal2-checkbox">` : ''}
         `,
         focusConfirm: false,
         confirmButtonText: 'Guardar',
@@ -169,7 +168,7 @@ function openAlimentoForm(alimento = {}) {
             const descripcion = document.getElementById('descripcion').value.trim();
             const precio = document.getElementById('precio').value;
             const categoria = document.getElementById('categoria').value;
-            const estatus = document.getElementById('estatus').checked ? 'Activo' : 'Inactivo';
+            const estatus = alimento.estatus === 'Inactivo' && document.getElementById('estatus').checked ? 'Activo' : alimento.estatus;
 
             if (!nombre || !descripcion || !precio || !categoria) {
                 Swal.showValidationMessage('Por favor completa todos los campos.');
@@ -257,20 +256,24 @@ function editAlimento(id) {
 /* Función para confirmar la eliminación de un alimento   */
 /**********************************************************/
 function confirmDeleteAlimento(id) {
+    const alimento = alimentos.find(alimento => alimento.id === id);
+    const action = alimento.estatus === 'Activo' ? 'inactivar' : 'eliminar permanentemente';
+    const confirmButtonText = alimento.estatus === 'Activo' ? 'Sí, Inactivar' : 'Sí, Eliminar';
+
     Swal.fire({
-        title: '¿Estás seguro?',
+        title: `¿Estás seguro de ${action} este alimento?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
+        confirmButtonText: confirmButtonText,
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
             deleteAlimento(id);
             Swal.fire(
-                'Eliminado!',
-                'El alimento ha sido marcado como inactivo.',
+                'Operación realizada',
+                `El alimento ha sido ${action}.`,
                 'success'
             );
         }
@@ -278,12 +281,18 @@ function confirmDeleteAlimento(id) {
 }
 
 /**********************************************************/
-/* Función para eliminar un alimento (marcar como inactivo) */
+/* Función para eliminar un alimento (marcar como inactivo) o eliminarlo */
 /**********************************************************/
 function deleteAlimento(id) {
     const alimentoIndex = alimentos.findIndex(alimento => alimento.id === id);
     if (alimentoIndex !== -1) {
-        alimentos[alimentoIndex].estatus = 'Inactivo';
+        if (alimentos[alimentoIndex].estatus === 'Activo') {
+            // Marcar como inactivo
+            alimentos[alimentoIndex].estatus = 'Inactivo';
+        } else {
+            // Eliminar permanentemente
+            alimentos.splice(alimentoIndex, 1);
+        }
         renderTable();
     }
 }
@@ -324,3 +333,4 @@ function logAlimentosToConsole() {
 /* Inicializar la renderización de la tabla al cargar la página */
 /**********************************************************/
 renderTable();
+
