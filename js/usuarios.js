@@ -11,11 +11,11 @@ let users = JSON.parse(text).usuarios.map((user, index) => ({
     estatus: user.estatus
 }));
 
-const colors = ['#FAAF08', '#FA812F', '#FA4032'];
+const colors = ['#FA812F'];
 const randomColor = colors[Math.floor(Math.random() * colors.length)];
-document.body.style.backgroundColor = randomColor;
+document.body.style.backgroundColor = '#FA812F';
 const thElements = document.querySelectorAll('th');
-thElements.forEach(th => th.style.backgroundColor = randomColor);
+thElements.forEach(th => th.style.backgroundColor = '#FA812F');
 
 function renderTable() {
     const tableBody = document.querySelector('#userTable tbody');
