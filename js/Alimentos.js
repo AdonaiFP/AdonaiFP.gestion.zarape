@@ -119,7 +119,7 @@ function renderTable() {
             <td>${alimento.estatus}</td>
             <td>
                 <button class="icon-button" onclick="editAlimento('${alimento.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
-                ${alimento.estatus === 'Activo' ? `<button class="icon-button" onclick="confirmDeleteAlimento('${alimento.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>` : ''}
+                <button class="icon-button" onclick="confirmDeleteAlimento('${alimento.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
             </td>
         `;
         tableBody.appendChild(row);
@@ -256,20 +256,24 @@ function editAlimento(id) {
 /* Función para confirmar la eliminación de un alimento   */
 /**********************************************************/
 function confirmDeleteAlimento(id) {
+    const alimento = alimentos.find(alimento => alimento.id === id);
+    const action = alimento.estatus === 'Activo' ? 'inactivar' : 'eliminar permanentemente';
+    const confirmButtonText = alimento.estatus === 'Activo' ? 'Sí, Inactivar' : 'Sí, Eliminar';
+
     Swal.fire({
-        title: '¿Estás seguro de inactivar este alimento?',
+        title: `¿Estás seguro de ${action} este alimento?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, Inactivar',
+        confirmButtonText: confirmButtonText,
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
             deleteAlimento(id);
             Swal.fire(
-                'Eliminado!',
-                'El alimento ha sido marcado como inactivo.',
+                'Operación realizada',
+                `El alimento ha sido ${action}.`,
                 'success'
             );
         }
@@ -277,12 +281,18 @@ function confirmDeleteAlimento(id) {
 }
 
 /**********************************************************/
-/* Función para eliminar un alimento (marcar como inactivo) */
+/* Función para eliminar un alimento (marcar como inactivo) o eliminarlo */
 /**********************************************************/
 function deleteAlimento(id) {
     const alimentoIndex = alimentos.findIndex(alimento => alimento.id === id);
     if (alimentoIndex !== -1) {
-        alimentos[alimentoIndex].estatus = 'Inactivo';
+        if (alimentos[alimentoIndex].estatus === 'Activo') {
+            // Marcar como inactivo
+            alimentos[alimentoIndex].estatus = 'Inactivo';
+        } else {
+            // Eliminar permanentemente
+            alimentos.splice(alimentoIndex, 1);
+        }
         renderTable();
     }
 }
