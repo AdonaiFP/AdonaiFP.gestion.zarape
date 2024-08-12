@@ -1,6 +1,6 @@
 /**********************************************************/
 /* Axolotl Technologies                                   */
-/* 26/06/2024                                             */
+/* 26/07/2024                                             */
 /* Carlos Daniel Gomez Mendez                             */
 /* Gestión de usuarios para una aplicación web            */
 /**********************************************************/
