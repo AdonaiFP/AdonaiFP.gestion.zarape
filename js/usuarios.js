@@ -1,72 +1,90 @@
-var text = '{"usuarios" : [ ' +
-           '{"foto" : "", "nombre" : "admin", "contrasena":"1234", "cargo" : "Administrador", "estatus" : "Activo"} ' +
-           ']}';
+/**********************************************************/
+/* Axolotl Technologies                                   */
+/* 26/06/2024                                             */
+/* Rey Adonaí Floreano Parra                              */
+/* Gestión de usuarios para una aplicación web            */
+/**********************************************************/
 
-let users = JSON.parse(text).usuarios.map((user, index) => ({
-    id: String(index + 1).padStart(4, '0'),
-    foto: user.foto,
-    nombre: user.nombre,
-    contraseña: user.contrasena,
-    cargo: user.cargo,
-    estatus: user.estatus
+// Variables y constantes
+let usuariosTexto = '{"usuarios" : [ ' +
+    '{"foto" : "", "nombre" : "admin", "contrasena":"1234", "cargo" : "Administrador", "estatus" : "Activo"} ' +
+    ']}';
+
+let usuarios = JSON.parse(usuariosTexto).usuarios.map((usuario, indice) => ({
+    id: String(indice + 1).padStart(4, '0'),
+    foto: usuario.foto,
+    nombre: usuario.nombre,
+    contraseña: usuario.contrasena,
+    cargo: usuario.cargo,
+    estatus: usuario.estatus
 }));
 
-const colors = ['#FA812F'];
-const randomColor = colors[Math.floor(Math.random() * colors.length)];
+const COLORES = ['#FA812F'];
+const COLOR_ALEATORIO = COLORES[Math.floor(Math.random() * COLORES.length)];
 document.body.style.backgroundColor = '#FA812F';
-const thElements = document.querySelectorAll('th');
-thElements.forEach(th => th.style.backgroundColor = '#FA812F');
+const elementosTH = document.querySelectorAll('th');
+elementosTH.forEach(th => th.style.backgroundColor = '#FA812F');
 
-function renderTable() {
-    const tableBody = document.querySelector('#userTable tbody');
-    tableBody.innerHTML = '';
+/**********************************************************/
+/* Función para renderizar la tabla de usuarios activos   */
+/* Recorre la lista de usuarios y genera filas HTML       */
+/* para cada usuario activo en la tabla de usuarios.      */
+/**********************************************************/
+function renderizarTabla() {
+    const cuerpoTabla = document.querySelector('#userTable tbody');
+    cuerpoTabla.innerHTML = '';
 
-    users.forEach(user => {
-        if (user.estatus === 'Activo') {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${user.id}</td>
-                <td><img src="${user.foto}" alt="Foto de ${user.nombre}" width="50"></td>
-                <td>${user.nombre}</td>
-                <td>${user.contraseña}</td>
-                <td>${user.cargo}</td>
-                <td>${user.estatus}</td>
+    usuarios.forEach(usuario => {
+        if (usuario.estatus === 'Activo') {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${usuario.id}</td>
+                <td><img src="${usuario.foto}" alt="Foto de ${usuario.nombre}" width="50"></td>
+                <td>${usuario.nombre}</td>
+                <td>${usuario.contraseña}</td>
+                <td>${usuario.cargo}</td>
+                <td>${usuario.estatus}</td>
                 <td>
-                    <button class="icon-button" onclick="editUser('${user.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
-                    <button class="icon-button" onclick="confirmDeleteUser('${user.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
+                    <button class="icon-button" onclick="editarUsuario('${usuario.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
+                    <button class="icon-button" onclick="confirmarEliminarUsuario('${usuario.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
                 </td>
             `;
-            tableBody.appendChild(row);
+            cuerpoTabla.appendChild(fila);
         }
     });
 
     // Llamar a la función para mostrar los objetos en la consola
-    logUsersToConsole();
+    mostrarUsuariosEnConsola();
 }
 
-function openUserForm(user = {}) {
+/**********************************************************/
+/* Función para abrir el formulario de usuario            */
+/* Muestra un formulario emergente con SweetAlert2        */
+/* para agregar o editar un usuario.                      */
+/**********************************************************/
+function abrirFormularioUsuario(usuario = {}) {
     Swal.fire({
-        title: user.id ? 'Editar Usuario' : 'Agregar Usuario',
+        title: usuario.id ? 'Editar Usuario' : 'Agregar Usuario',
         html: `
-            <input type="hidden" id="userId" value="${user.id || ''}">
+            <input type="hidden" id="userId" value="${usuario.id || ''}">
             <label for="foto">Foto:</label>
             <input type="file" id="foto" class="swal2-file" accept="image/*">
-            ${user.foto ? `<img src="${user.foto}" id="previewFoto" alt="Foto de ${user.nombre}" width="50"><br>` : ''}
+            ${usuario.foto ? `<img src="${usuario.foto}" id="previewFoto" alt="Foto de ${usuario.nombre}" width="50"><br>` : ''}
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" class="swal2-input" value="${user.nombre || ''}">
+            <input type="text" id="nombre" class="swal2-input" value="${usuario.nombre || ''}">
             <label for="contraseña">Contraseña:</label>
-            <input type="password" id="contraseña" class="swal2-input" value="${user.contraseña || ''}">
+            <input type="password" id="contraseña" class="swal2-input" value="${usuario.contraseña || ''}">
             <label for="cargo">Cargo:</label>
-            <input type="text" id="cargo" class="swal2-input" value="${user.cargo || ''}">
+            <input type="text" id="cargo" class="swal2-input" value="${usuario.cargo || ''}">
         `,
         focusConfirm: false,
         confirmButtonText: 'Guardar',
         preConfirm: () => {
             return new Promise((resolve) => {
-                const fotoInput = document.getElementById('foto');
-                if (fotoInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
+                const inputFoto = document.getElementById('foto');
+                if (inputFoto.files[0]) {
+                    const lector = new FileReader();
+                    lector.onload = (e) => {
                         resolve({
                             id: document.getElementById('userId').value,
                             foto: e.target.result,
@@ -75,11 +93,11 @@ function openUserForm(user = {}) {
                             cargo: document.getElementById('cargo').value,
                         });
                     };
-                    reader.readAsDataURL(fotoInput.files[0]);
+                    lector.readAsDataURL(inputFoto.files[0]);
                 } else {
                     resolve({
                         id: document.getElementById('userId').value,
-                        foto: user.foto,
+                        foto: usuario.foto,
                         nombre: document.getElementById('nombre').value,
                         contraseña: document.getElementById('contraseña').value,
                         cargo: document.getElementById('cargo').value,
@@ -87,26 +105,26 @@ function openUserForm(user = {}) {
                 }
             });
         }
-    }).then(result => {
-        if (result.isConfirmed) {
-            const { id, foto, nombre, contraseña, cargo } = result.value;
+    }).then(resultado => {
+        if (resultado.isConfirmed) {
+            const { id, foto, nombre, contraseña, cargo } = resultado.value;
             if (id) {
-                const userIndex = users.findIndex(user => user.id === id);
-                users[userIndex] = { id, foto, nombre, contraseña, cargo, estatus: 'Activo' };
+                const indiceUsuario = usuarios.findIndex(usuario => usuario.id === id);
+                usuarios[indiceUsuario] = { id, foto, nombre, contraseña, cargo, estatus: 'Activo' };
             } else {
-                const newId = String(users.length ? Math.max(...users.map(user => parseInt(user.id))) + 1 : 1).padStart(4, '0');
-                users.push({ id: newId, foto, nombre, contraseña, cargo, estatus: 'Activo' });
+                const nuevoId = String(usuarios.length ? Math.max(...usuarios.map(usuario => parseInt(usuario.id))) + 1 : 1).padStart(4, '0');
+                usuarios.push({ id: nuevoId, foto, nombre, contraseña, cargo, estatus: 'Activo' });
             }
-            renderTable();
+            renderizarTabla();
         }
     });
 
-    const fotoInput = document.getElementById('foto');
-    fotoInput.addEventListener('change', () => {
+    const inputFoto = document.getElementById('foto');
+    inputFoto.addEventListener('change', () => {
         const previewFoto = document.getElementById('previewFoto');
-        if (fotoInput.files && fotoInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
+        if (inputFoto.files && inputFoto.files[0]) {
+            const lector = new FileReader();
+            lector.onload = (e) => {
                 if (previewFoto) {
                     previewFoto.src = e.target.result;
                 } else {
@@ -114,20 +132,30 @@ function openUserForm(user = {}) {
                     img.id = 'previewFoto';
                     img.src = e.target.result;
                     img.width = 50;
-                    fotoInput.insertAdjacentElement('afterend', img);
+                    inputFoto.insertAdjacentElement('afterend', img);
                 }
             };
-            reader.readAsDataURL(fotoInput.files[0]);
+            lector.readAsDataURL(inputFoto.files[0]);
         }
     });
 }
 
-function editUser(id) {
-    const user = users.find(user => user.id === id);
-    openUserForm(user);
+/**********************************************************/
+/* Función para editar un usuario                         */
+/* Abre el formulario de edición para el usuario          */
+/* correspondiente al ID proporcionado.                   */
+/**********************************************************/
+function editarUsuario(id) {
+    const usuario = usuarios.find(usuario => usuario.id === id);
+    abrirFormularioUsuario(usuario);
 }
 
-function confirmDeleteUser(id) {
+/**********************************************************/
+/* Función para confirmar la eliminación de un usuario    */
+/* Muestra un cuadro de diálogo de confirmación antes     */
+/* de eliminar un usuario.                                */
+/**********************************************************/
+function confirmarEliminarUsuario(id) {
     Swal.fire({
         title: '¿Estás seguro?',
         text: "No podrás revertir esto",
@@ -137,9 +165,9 @@ function confirmDeleteUser(id) {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            deleteUser(id);
+    }).then((resultado) => {
+        if (resultado.isConfirmed) {
+            eliminarUsuario(id);
             Swal.fire(
                 'Eliminado!',
                 'El usuario ha sido eliminado.',
@@ -149,27 +177,37 @@ function confirmDeleteUser(id) {
     });
 }
 
-function deleteUser(id) {
-    const userIndex = users.findIndex(user => user.id === id);
-    if (userIndex !== -1) {
-        users[userIndex].estatus = 'Inactivo';
-        renderTable();
+/**********************************************************/
+/* Función para eliminar un usuario                       */
+/* Marca el estado del usuario como inactivo              */
+/* y actualiza la tabla.                                  */
+/**********************************************************/
+function eliminarUsuario(id) {
+    const indiceUsuario = usuarios.findIndex(usuario => usuario.id === id);
+    if (indiceUsuario !== -1) {
+        usuarios[indiceUsuario].estatus = 'Inactivo';
+        renderizarTabla();
     }
 }
 
-function searchTable() {
+/**********************************************************/
+/* Función para buscar en la tabla de usuarios            */
+/* Filtra las filas de la tabla según el texto ingresado  */
+/* en el campo de búsqueda.                               */
+/**********************************************************/
+function buscarEnTabla() {
     const input = document.getElementById('searchInput');
-    const filter = input.value.toLowerCase();
-    const table = document.getElementById('userTable');
-    const tr = table.getElementsByTagName('tr');
+    const filtro = input.value.toLowerCase();
+    const tabla = document.getElementById('userTable');
+    const filas = tabla.getElementsByTagName('tr');
 
-    for (let i = 1; i < tr.length; i++) {
-        tr[i].style.display = 'none';
-        const td = tr[i].getElementsByTagName('td');
-        for (let j = 1; j < td.length; j++) { // Empezamos en 1 para excluir la columna de foto
-            if (td[j]) {
-                if (td[j].innerHTML.toLowerCase().indexOf(filter) > -1) {
-                    tr[i].style.display = '';
+    for (let i = 1; i < filas.length; i++) {
+        filas[i].style.display = 'none';
+        const celdas = filas[i].getElementsByTagName('td');
+        for (let j = 1; j < celdas.length; j++) { // Empezamos en 1 para excluir la columna de foto
+            if (celdas[j]) {
+                if (celdas[j].innerHTML.toLowerCase().indexOf(filtro) > -1) {
+                    filas[i].style.display = '';
                     break;
                 }
             }
@@ -177,9 +215,13 @@ function searchTable() {
     }
 }
 
-function logUsersToConsole() {
-    console.log("Usuarios:", users);
+/**********************************************************/
+/* Función para mostrar los usuarios en la consola        */
+/* Registra la lista actual de usuarios en la consola     */
+/**********************************************************/
+function mostrarUsuariosEnConsola() {
+    console.log("Usuarios:", usuarios);
 }
 
 // Llamar a la función para mostrar los objetos en la consola cuando se cargue la página
-renderTable();
+renderizarTabla();
