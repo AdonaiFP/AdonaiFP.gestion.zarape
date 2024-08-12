@@ -1,6 +1,6 @@
 var text = '{"usuarios" : [ ' +
-    '{"foto" : "", "nombre" : "admin", "contrasena":"1234", "cargo" : "Administrador", "estatus" : "Activo"} ' +
-    ']}';
+           '{"foto" : "", "nombre" : "admin", "contrasena":"1234", "cargo" : "Administrador", "estatus" : "Activo"} ' +
+           ']}';
 
 let users = JSON.parse(text).usuarios.map((user, index) => ({
     id: String(index + 1).padStart(4, '0'),
@@ -58,11 +58,6 @@ function openUserForm(user = {}) {
             <input type="password" id="contraseña" class="swal2-input" value="${user.contraseña || ''}">
             <label for="cargo">Cargo:</label>
             <input type="text" id="cargo" class="swal2-input" value="${user.cargo || ''}">
-            <label for="estatus">Estatus:</label>
-            <select id="estatus" class="swal2-select">
-                <option value="Activo" ${user.estatus === 'Activo' ? 'selected' : ''}>Activo</option>
-                <option value="Inactivo" ${user.estatus === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
-            </select>
         `,
         focusConfirm: false,
         confirmButtonText: 'Guardar',
@@ -78,7 +73,6 @@ function openUserForm(user = {}) {
                             nombre: document.getElementById('nombre').value,
                             contraseña: document.getElementById('contraseña').value,
                             cargo: document.getElementById('cargo').value,
-                            estatus: document.getElementById('estatus').value
                         });
                     };
                     reader.readAsDataURL(fotoInput.files[0]);
@@ -89,17 +83,16 @@ function openUserForm(user = {}) {
                         nombre: document.getElementById('nombre').value,
                         contraseña: document.getElementById('contraseña').value,
                         cargo: document.getElementById('cargo').value,
-                        estatus: document.getElementById('estatus').value
                     });
                 }
             });
         }
     }).then(result => {
         if (result.isConfirmed) {
-            const { id, foto, nombre, contraseña, cargo, estatus } = result.value;
+            const { id, foto, nombre, contraseña, cargo } = result.value;
             if (id) {
                 const userIndex = users.findIndex(user => user.id === id);
-                users[userIndex] = { id, foto, nombre, contraseña, cargo, estatus };
+                users[userIndex] = { id, foto, nombre, contraseña, cargo, estatus: 'Activo' };
             } else {
                 const newId = String(users.length ? Math.max(...users.map(user => parseInt(user.id))) + 1 : 1).padStart(4, '0');
                 users.push({ id: newId, foto, nombre, contraseña, cargo, estatus: 'Activo' });
