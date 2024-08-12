@@ -70,6 +70,18 @@ var text = '{"combos" : [ ' +
     '{"nombre" : "Combo Flautas Fiesta", "descripcion" : "Tres flautas con una bebida refrescante.", "alimentos" : ["Flautas de pollo"], "cantA" : ["3"], "bebidas" : ["Agua de melón"], "cantB" : ["1"], "precio" : "15.36", "estatus" : "Activo"} ' +
     ']}';
 
+let combos = JSON.parse(text).combos.map((combo, index) => ({
+    id: String(index + 1).padStart(4, '0'),
+    nombre: combo.nombre,
+    descripcion: combo.descripcion,
+    alimentos: combo.alimentos,
+    cantA: combo.cantA,
+    bebidas: combo.bebidas,
+    cantB: combo.cantB,
+    precio: combo.precio,
+    estatus: combo.estatus
+    }));
+       
 /**********************************************************/
 /* Configuración de Colores para la Interfaz de Usuario */
 /**********************************************************/
@@ -78,30 +90,32 @@ const randomColor = colors[Math.floor(Math.random() * colors.length)];
 document.body.style.backgroundColor = randomColor;
 const thElements = document.querySelectorAll('th');
 thElements.forEach(th => th.style.backgroundColor = randomColor);
+        
 
 /**********************************************************/
 /* Función para Renderizar la Tabla de Combos */
-/**********************************************************/
+/**********************************************************/        
 function renderTable() {
-    const tableBody = document.querySelector('#comboTable tbody');
-    tableBody.innerHTML = '';
-    combos.forEach(combo => {
+const tableBody = document.querySelector('#comboTable tbody');
+        tableBody.innerHTML = '';
+        combos.forEach(combo => {
         const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${combo.id}</td>
-            <td>${combo.nombre}</td>
-            <td>${combo.descripcion}</td>
-            <td>${combo.alimentos.map((alimento, index) => `${alimento} (${combo.cantA[index]})`).join('<br>')}</td>
-            <td>${combo.bebidas.map((bebida, index) => `${bebida} (${combo.cantB[index]})`).join('<br>')}</td>
-            <td>$${combo.precio}</td>
-            <td>${combo.estatus}</td>
-            <td>
-                <button class="icon-button" onclick="editCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
-                <button class="icon-button" onclick="confirmDeleteCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
+                row.innerHTML = 
+                <td>${combo.id}</td>
+                <td>${combo.nombre}</td>
+                <td>${combo.descripcion}</td>
+                <td>${combo.alimentos.map((alimento, index) => ${alimento} (${combo.cantA[index]})).join('<br>')}</td>
+                <td>${combo.bebidas.map((bebida, index) => ${bebida} (${combo.cantB[index]})).join('<br>')}</td>
+                <td>$${combo.precio}</td>
+                <td>${combo.estatus}</td>
+                <td>
+                    <button class="icon-button" onclick="editCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
+                    <button class="icon-button" onclick="confirmDeleteCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
+                </td>
+            ;
+            tableBody.appendChild(row);
+        }
+    );
 }
 
 /**********************************************************/
@@ -117,9 +131,9 @@ function searchTable() {
         const td = tr[i].getElementsByTagName('td');
         for (let j = 1; j < td.length; j++) {
             if (td[j]) {
-                if (td[j].innerHTML.toLowerCase().indexOf(filter) > -1) {
-                    tr[i].style.display = '';
-                    break;
+            if (td[j].innerHTML.toLowerCase().indexOf(filter) > - 1) {
+            tr[i].style.display = '';
+            break;
                 }
             }
         }
@@ -150,6 +164,7 @@ function calcularPrecio() {
     // Calcula el precio total de las bebidas
     bebidas.forEach((bebidaSelect, index) => {
         const bebidaSeleccionada = listaBebidas.find(item => item.nombre === bebidaSelect.value);
+        const chucho = bebidaSelect;
         const cantidadB = parseInt(cantB[index].value) || 0;
         if (bebidaSeleccionada && cantidadB > 0) {
             precioTotal += bebidaSeleccionada.precio * cantidadB;
@@ -158,8 +173,9 @@ function calcularPrecio() {
 
     // Aplicar un descuento del 10% si se desea
     const precioConDescuento = precioTotal * 0.9;
-    console.log(`Precio total con descuento: ${precioConDescuento.toFixed(2)}`);
-    document.getElementById('comboPrice').value = `${precioConDescuento.toFixed(2)}`;
+    
+        console.log(Precio total con descuento: ${precioConDescuento.toFixed(2)});
+    document.getElementById('comboPrice').value = ${precioConDescuento.toFixed(2)};
 }
 
 document.addEventListener('input', function(event) {
@@ -169,134 +185,172 @@ document.addEventListener('input', function(event) {
     }
 });
 
-/**********************************************************/
-/* Función para abrir el formulario de un Combo */
-/**********************************************************/
 function openComboForm(combo = {}) {
-    Swal.fire({
-        title: combo.id ? 'Editar Combo' : 'Agregar Combo',
-        html: `
-            <input type="hidden" id="comboId" value="${combo.id || ''}">
-            <input type="text" id="comboName" class="swal2-input" placeholder="Nombre" value="${combo.nombre || ''}">
-            <input type="text" id="comboDesc" class="swal2-input" placeholder="Descripción" value="${combo.descripcion || ''}">
-            <div id="alimentosContainer">
-                ${generateFields('alimentosContainer', combo.alimentos, combo.cantA, 'alimento')}
-            </div>
-            <button onclick="agregarAlimentos()">Añadir Alimento</button><br>
-            <div id="bebidasContainer">
-                ${generateFields('bebidasContainer', combo.bebidas, combo.cantB, 'bebida')}
-            </div>
-            <button onclick="agregarBebidas()">Añadir Bebida</button><br>
-            <input type="text" id="comboPrice" class="swal2-input" readonly value="${combo.precio || ''}">
-            <select id="comboStatus" class="swal2-select">
-                <option value="Activo" ${combo.estatus === 'Activo' ? 'selected' : ''}>Activo</option>
-                <option value="Inactivo" ${combo.estatus === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
-            </select>
-        `,
+Swal.fire({
+title: combo.id ? 'Editar Combo' : 'Agregar Combo',
+        html: 
+                    <input type="hidden" id="comboId" value="${combo.id || ''}">
+                    <input type="text" id="comboName" class="swal2-input" placeholder="Nombre" value="${combo.nombre || ''}">
+                    <input type="text" id="comboDesc" class="swal2-input" placeholder="Descripción" value="${combo.descripcion || ''}">
+                    <div id="alimentosContainer">
+                        ${generateAlimentosFields(combo.alimentos, combo.cantA)}
+                    </div>
+                    <button onclick="agregarAlimentos()">Añadir Alimento</button><br>
+                    <div id="bebidasContainer">
+                        ${generateBebidasFields(combo.bebidas, combo.cantB)}
+                    </div>
+                    <button onclick="agregarBebidas()">Añadir Bebida</button><br>
+                    <input type="text" id="comboPrice" class="swal2-input" readonly value="${combo.precio || ''}">
+                    <select id="comboStatus" class="swal2-select">
+                        <option value="Activo" ${combo.estatus === 'Activo' ? 'selected' : ''}>Activo</option>
+                        <option value="Inactivo" ${combo.estatus === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
+                    </select>
+                ,
         focusConfirm: false,
         preConfirm: () => {
-            const id = document.getElementById('comboId').value;
-            const nombre = document.getElementById('comboName').value;
-            const descripcion = document.getElementById('comboDesc').value;
-            const alimentos = Array.from(document.querySelectorAll('#alimentosContainer .alimento')).map(el => el.value);
-            const cantA = Array.from(document.querySelectorAll('#alimentosContainer .cantA')).map(el => el.value);
-            const bebidas = Array.from(document.querySelectorAll('#bebidasContainer .bebida')).map(el => el.value);
-            const cantB = Array.from(document.querySelectorAll('#bebidasContainer .cantB')).map(el => el.value);
-            const precio = document.getElementById('comboPrice').value;
-            const estatus = document.getElementById('comboStatus').value;
-
-            if (!nombre || !descripcion || !alimentos.length || !bebidas.length || !precio) {
-                Swal.showValidationMessage('Todos los campos son obligatorios');
-                return false;
-            }
-
-            if (id) {
-                const comboIndex = combos.findIndex(c => c.id === id);
-                combos[comboIndex] = { id, nombre, descripcion, alimentos, cantA, bebidas, cantB, precio, estatus };
-            } else {
-                combos.push({ id: String(combos.length + 1).padStart(4, '0'), nombre, descripcion, alimentos, cantA, bebidas, cantB, precio, estatus });
-            }
+const id = document.getElementById('comboId').value;
+        const nombre = document.getElementById('comboName').value;
+        const descripcion = document.getElementById('comboDesc').value;
+        const alimentos = Array.from(document.querySelectorAll('#alimentosContainer .alimento')).map(el => el.value);
+        const cantA = Array.from(document.querySelectorAll('#alimentosContainer .cantA')).map(el => el.value);
+        const bebidas = Array.from(document.querySelectorAll('#bebidasContainer .bebida')).map(el => el.value);
+        const cantB = Array.from(document.querySelectorAll('#bebidasContainer .cantB')).map(el => el.value);
+        const precio = document.getElementById('comboPrice').value;
+        const estatus = document.getElementById('comboStatus').value;
+        if (!nombre || !descripcion || !alimentos.length || !bebidas.length || !precio) {
+Swal.showValidationMessage('Todos los campos son obligatorios');
+        return false;
         }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            renderTable();
+if (id) {
+const comboIndex = combos.findIndex(c => c.id === id);
+        combos[comboIndex] = { id, nombre, descripcion, alimentos, cantA, bebidas, cantB, precio, estatus };
+        } else {
+combos.push({ id: String(combos.length + 1).padStart(4, '0'), nombre, descripcion, alimentos, cantA, bebidas, cantB, precio, estatus });
         }
-    });
 }
+}).then((result) => {
+if (result.isConfirmed) {
+renderTable();
+        }
+});
+        }
 
-/**********************************************************/
-/* Función para generar campos de alimentos y bebidas */
-/**********************************************************/
-function generateFields(containerId, items = [], quantities = [], type) {
-    return items.map((item, index) => `
-        <label for="${type}${index}">${type.charAt(0).toUpperCase() + type.slice(1)}:</label>
-        <select id="${type}${index}" class="swal2-input ${type}">
-            ${generarOpcionesHTML(item, type)}
+function generateAlimentosFields(alimentos = [], cantA = []) {
+    return alimentos.map((alimento, index) => 
+        <label for="alimento${index}">Alimento:</label>
+        <select id="alimento${index}" class="swal2-input alimento">
+            ${generarOpcionesHTML(alimento, 'alimento')}
         </select>
-        <label for="cant${type.charAt(0).toUpperCase() + type.slice(1)}${index}">#:</label>
-        <input type="number" min="1" id="cant${type.charAt(0).toUpperCase() + type.slice(1)}${index}" class="swal2-input cant${type.charAt(0).toUpperCase() + type.slice(1)}" value="${quantities[index] || ''}" oninput="calcularPrecio()">
+        <label for="cantA${index}">#:</label>
+        <input type="number" min="1" id="cantA${index}" class="swal2-input cantA" value="${cantA[index] || ''}" oninput="calcularPrecio()">
         <br>
-    `).join('');
+    ).join('');
 }
 
-/**********************************************************/
-/* Función para agregar nuevos campos de alimentos */
-/**********************************************************/
+function generateBebidasFields(bebidas = [], cantB = []) {
+    return bebidas.map((bebida, index) => 
+        <label for="bebida${index}">Bebida:</label>
+        <select id="bebida${index}" class="swal2-input bebida">
+            ${generarOpcionesHTML(bebida, 'bebida')}
+        </select>
+        <label for="cantB${index}">#:</label>
+        <input type="number" min="1" id="cantB${index}" class="swal2-input cantB" value="${cantB[index] || ''}" oninput="calcularPrecio()">
+        <br>
+    ).join('');
+}
+
+
 function agregarAlimentos() {
-    agregarFields('alimentosContainer', 'alimento');
+    const container = document.getElementById('alimentosContainer');
+    const index = container.children.length / 3; // Calcula el índice basado en la cantidad de campos existentes
+
+    const alimentoSelect = document.createElement('select');
+    alimentoSelect.id = alimento${index};
+    alimentoSelect.className = 'swal2-input alimento';
+    alimentoSelect.innerHTML = generarOpcionesHTML('', 'alimento'); // Genera opciones solo para alimentos
+    alimentoSelect.onchange = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar el select
+
+    const cantidadInput = document.createElement('input');
+    cantidadInput.type = 'number';
+    cantidadInput.min = '1';
+    cantidadInput.id = cantA${index};
+    cantidadInput.className = 'swal2-input cantA';
+    cantidadInput.oninput = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar la cantidad
+
+    container.appendChild(alimentoSelect);
+    container.appendChild(cantidadInput);
+    container.appendChild(document.createElement('br'));
 }
 
-/**********************************************************/
-/* Función para agregar nuevos campos de bebidas */
-/**********************************************************/
 function agregarBebidas() {
-    agregarFields('bebidasContainer', 'bebida');
+    const container = document.getElementById('bebidasContainer');
+    const index = container.children.length / 3; // Calcula el índice basado en la cantidad de campos existentes
+
+    const bebidaSelect = document.createElement('select');
+    bebidaSelect.id = bebida${index};
+    bebidaSelect.className = 'swal2-input bebida';
+    bebidaSelect.innerHTML = generarOpcionesHTML('', 'bebida'); // Genera opciones solo para bebidas
+    bebidaSelect.onchange = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar el select
+
+    const cantidadInput = document.createElement('input');
+    cantidadInput.type = 'number';
+    cantidadInput.min = '1';
+    cantidadInput.id = cantB${index};
+    cantidadInput.className = 'swal2-input cantB';
+    cantidadInput.oninput = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar la cantidad
+
+    container.appendChild(bebidaSelect);
+    container.appendChild(cantidadInput);
+    container.appendChild(document.createElement('br'));
 }
 
-/**********************************************************/
-/* Función para Editar un Combo */
-/**********************************************************/
+  /**********************************************************/
+  /* Función para Editar un Combo */
+  /**********************************************************/
 function editCombo(id) {
-    const combo = combos.find(combo => combo.id === id);
-    openComboForm(combo);
-}
+const combo = combos.find(combo => combo.id === id);
+        openComboForm(combo);
+        }
 
-/**********************************************************/
-/* Función para confirmar la eliminación de un Combo */
-/**********************************************************/
+
+  /**********************************************************/
+  /* Función para confirmar la eliminación de un Combo */
+  /**********************************************************/
 function confirmDeleteCombo(id) {
-    Swal.fire({
-        title: '¿Estás seguro?',
+Swal.fire({
+title: '¿Estás seguro?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            deleteCombo(id);
-            Swal.fire(
+        }).then((result) => {
+if (result.isConfirmed) {
+deleteCombo(id);
+        Swal.fire(
                 'Eliminado!',
                 'El combo ha sido eliminado.',
                 'success'
-            );
+                );
         }
-    });
+});
 }
+;
 
 /**********************************************************/
 /* Función para eliminar un Combo */
 /**********************************************************/
-function deleteCombo(id) {
-    const comboIndex = combos.findIndex(combo => combo.id === id);
-    if (comboIndex !== -1) {
-        combos[comboIndex].estatus = 'Inactivo';
-        renderTable();
-    }
-}
+      function deleteCombo(id) {
+      const comboIndex = combos.findIndex(combo => combo.id === id);
+              if (comboIndex !== - 1) {
+      combos[comboIndex].estatus = 'Inactivo';
+              renderTable();
+      }
+      }
+;
 
-/**********************************************************/
-/* Inicialización de la tabla al cargar la página */
-/**********************************************************/
-renderTable(); // Renderizar la tabla al cargar
+  /**********************************************************/
+  /* Inicialización de la tabla al cargar la página */
+  /**********************************************************/
+        renderTable(); // Renderizar la tabla al cargar
