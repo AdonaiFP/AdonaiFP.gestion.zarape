@@ -1,13 +1,13 @@
-/********************/
+/**********************************************************/
 /* Axolotl Technologies */
 /* 11/08/2024 */
 /* Rey Adonaí Floreano Parra */
 /* Gestión de Combos y Menús de Alimentos y Bebidas */
-/********************/
+/**********************************************************/
 
-/********************/
+/**********************************************************/
 /* Constantes de Alimentos y Bebidas */
-/********************/
+/**********************************************************/
 const listaBebidas = [
     { nombre: "Agua de horchata", precio: 30 },
     { nombre: "Jugo de naranja", precio: 25 },
@@ -54,9 +54,9 @@ const bebidas = [
     { nombre: "Batido de plátano", precio: 38 }
     ];
 
-/********************/
+/**********************************************************/
 /* Configuración de Combos a partir de una Cadena JSON */
-/********************/
+/**********************************************************/
 var text = '{"combos" : [ ' +
     '{"nombre" : "Combo Pancakes", "descripcion" : "Pancakes con Smoothie de Fresa", "alimentos" : ["Pancakes"], "cantA" : ["2"], "bebidas" : ["Smoothie de fresa"], "cantB" : ["1"], "precio" : "53.55", "estatus" : "Activo"}, ' +
     '{"nombre" : "Combo Churros", "descripcion" : "Churros con Café Frío", "alimentos" : ["Churros"], "cantA" : ["3"], "bebidas" : ["Café frío"], "cantB" : ["1"], "precio" : "41.85", "estatus" : "Activo"}, ' +
@@ -68,9 +68,9 @@ var text = '{"combos" : [ ' +
     '{"nombre" : "Combo Ensalada de Frutas", "descripcion" : "Ensalada de Frutas con Limonada", "alimentos" : ["Ensalada de frutas"], "cantA" : ["1"], "bebidas" : ["Limonada"], "cantB" : ["1"], "precio" : "30.87", "estatus" : "Activo"} ' +
     ']}';
 
-/********************/
+/**********************************************************/
 /* Inicialización de Combos con IDs Únicos */
-/********************/
+/**********************************************************/
 let combos = JSON.parse(text).combos.map((combo, index) => ({
     id: String(index + 1).padStart(4, '0'),
     nombre: combo.nombre,
@@ -83,9 +83,9 @@ let combos = JSON.parse(text).combos.map((combo, index) => ({
     estatus: combo.estatus
     }));
        
-/********************/
+/**********************************************************/
 /* Configuración de Colores para la Interfaz de Usuario */
-/********************/
+/**********************************************************/
 const colors = ['#FA812F'];
 const randomColor = colors[Math.floor(Math.random() * colors.length)];
 document.body.style.backgroundColor = randomColor;
@@ -93,9 +93,9 @@ const thElements = document.querySelectorAll('th');
 thElements.forEach(th => th.style.backgroundColor = randomColor);
         
 
-/********************/
+/**********************************************************/
 /* Función para Renderizar la Tabla de Combos */
-/********************/        
+/**********************************************************/        
 function renderTable() {
 const tableBody = document.querySelector('#comboTable tbody');
         tableBody.innerHTML = '';
@@ -105,8 +105,8 @@ const tableBody = document.querySelector('#comboTable tbody');
                 <td>${combo.id}</td>
                 <td>${combo.nombre}</td>
                 <td>${combo.descripcion}</td>
-                <td>${combo.alimentos.map((alimento, index) => ${alimento} (${combo.cantA[index]})).join('<br>')}</td>
-                <td>${combo.bebidas.map((bebida, index) => ${bebida} (${combo.cantB[index]})).join('<br>')}</td>
+                <td>${combo.alimentos.map((alimento, index) => `${alimento} (${combo.cantA[index]})`).join('<br>')}</td>
+                <td>${combo.bebidas.map((bebida, index) => `${bebida} (${combo.cantB[index]})`).join('<br>')}</td>
                 <td>$${combo.precio}</td>
                 <td>${combo.estatus}</td>
                 <td>
@@ -119,9 +119,9 @@ const tableBody = document.querySelector('#comboTable tbody');
     );
 }
 
-/********************/
+/**********************************************************/
 /* Función para buscar un Combo en la tabla por todos sus campos */
-/********************/
+/**********************************************************/
 function searchTable() {
     const input = document.getElementById('searchInput');
     const filter = input.value.toLowerCase();
@@ -144,14 +144,14 @@ function generarOpciones(selectId, items, selectedItem) {
 let options = '<option value="selecciona" data-precio="0">Selecciona</option>';
         items.forEach(item => {
         const selected = item.nombre === selectedItem ? 'selected' : '';
-                options += <option value="${item.nombre}" data-precio="${item.precio}" ${selected}>${item.nombre}</option>;
+                options += `<option value="${item.nombre}" data-precio="${item.precio}" ${selected}>${item.nombre}</option>`;
         });
         document.getElementById(selectId).innerHTML = options;
         }
 
-/********************/
+/**********************************************************/
 /* Función para Calcular el Precio Total del Combo */
-/********************/
+/**********************************************************/
 function calcularPrecio() {
     // Obtén todos los elementos de alimentos y bebidas
     const alimentos = Array.from(document.querySelectorAll('#alimentosContainer .alimento'));
@@ -183,8 +183,8 @@ function calcularPrecio() {
     // Aplicar un descuento del 10% si se desea
     const precioConDescuento = precioTotal * 0.9;
     
-        console.log(Precio total con descuento: ${precioConDescuento.toFixed(2)});
-    document.getElementById('comboPrice').value = ${precioConDescuento.toFixed(2)};
+        console.log(`Precio total con descuento: ${precioConDescuento.toFixed(2)}`);
+    document.getElementById('comboPrice').value = `${precioConDescuento.toFixed(2)}`;
 }
 
 document.addEventListener('input', function(event) {
@@ -277,7 +277,7 @@ function generarOpcionesHTML(selectedItem, selectType) {
     
     items.forEach(item => {
         const selected = item.nombre === selectedItem ? 'selected' : '';
-        options += <option value="${item.nombre}" data-precio="${item.precio}" ${selected}>${item.nombre}</option>;
+        options += `<option value="${item.nombre}" data-precio="${item.precio}" ${selected}>${item.nombre}</option>`;
     });
     
     return options;
@@ -288,7 +288,7 @@ function agregarAlimentos() {
     const index = container.children.length / 3; // Calcula el índice basado en la cantidad de campos existentes
 
     const alimentoSelect = document.createElement('select');
-    alimentoSelect.id = alimento${index};
+    alimentoSelect.id = `alimento${index}`;
     alimentoSelect.className = 'swal2-input alimento';
     alimentoSelect.innerHTML = generarOpcionesHTML('', 'alimento'); // Genera opciones solo para alimentos
     alimentoSelect.onchange = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar el select
@@ -296,7 +296,7 @@ function agregarAlimentos() {
     const cantidadInput = document.createElement('input');
     cantidadInput.type = 'number';
     cantidadInput.min = '1';
-    cantidadInput.id = cantA${index};
+    cantidadInput.id = `cantA${index}`;
     cantidadInput.className = 'swal2-input cantA';
     cantidadInput.oninput = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar la cantidad
 
@@ -310,7 +310,7 @@ function agregarBebidas() {
     const index = container.children.length / 3; // Calcula el índice basado en la cantidad de campos existentes
 
     const bebidaSelect = document.createElement('select');
-    bebidaSelect.id = bebida${index};
+    bebidaSelect.id = `bebida${index}`;
     bebidaSelect.className = 'swal2-input bebida';
     bebidaSelect.innerHTML = generarOpcionesHTML('', 'bebida'); // Genera opciones solo para bebidas
     bebidaSelect.onchange = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar el select
@@ -318,7 +318,7 @@ function agregarBebidas() {
     const cantidadInput = document.createElement('input');
     cantidadInput.type = 'number';
     cantidadInput.min = '1';
-    cantidadInput.id = cantB${index};
+    cantidadInput.id = `cantB${index}`;
     cantidadInput.className = 'swal2-input cantB';
     cantidadInput.oninput = calcularPrecio; // Asegúrate de llamar calcularPrecio al cambiar la cantidad
 
@@ -327,18 +327,18 @@ function agregarBebidas() {
     container.appendChild(document.createElement('br'));
 }
 
-  /********************/
+  /**********************************************************/
   /* Función para Editar un Combo */
-  /********************/
+  /**********************************************************/
 function editCombo(id) {
 const combo = combos.find(combo => combo.id === id);
         openComboForm(combo);
         }
 
 
-  /********************/
+  /**********************************************************/
   /* Función para confirmar la eliminación de un Combo */
-  /********************/
+  /**********************************************************/
 function confirmDeleteCombo(id) {
 Swal.fire({
 title: '¿Estás seguro?',
@@ -362,9 +362,9 @@ deleteCombo(id);
 ;
 
 
-  /********************/
+  /**********************************************************/
   /* Función para eliminar un Combo */
-  /********************/
+  /**********************************************************/
         function deleteCombo(id) {
         const comboIndex = combos.findIndex(combo => combo.id === id);
                 if (comboIndex !== - 1) {
@@ -374,7 +374,7 @@ deleteCombo(id);
         }
 ;
 
-  /********************/
+  /**********************************************************/
   /* Inicialización de la tabla al cargar la página */
-  /********************/
+  /**********************************************************/
         renderTable(); // Renderizar la tabla al cargar
