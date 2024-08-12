@@ -1,13 +1,13 @@
-/**********************************************************/
+/********************/
 /* Axolotl Technologies */
 /* 11/08/2024 */
 /* Rey Adonaí Floreano Parra */
 /* Gestión de Combos y Menús de Alimentos y Bebidas */
-/**********************************************************/
+/********************/
 
-/**********************************************************/
+/********************/
 /* Constantes de Alimentos y Bebidas */
-/**********************************************************/
+/********************/
 const listaBebidas = [
     { nombre: "Agua de horchata", precio: 30 },
     { nombre: "Jugo de naranja", precio: 25 },
@@ -54,22 +54,23 @@ const bebidas = [
     { nombre: "Batido de plátano", precio: 38 }
     ];
 
-/**********************************************************/
+/********************/
 /* Configuración de Combos a partir de una Cadena JSON */
-/**********************************************************/
+/********************/
 var text = '{"combos" : [ ' +
-    '{"nombre" : "Combo Tacos Clásicos", "descripcion" : "Tres tacos clásicos con una refrescante bebida.", "alimentos" : ["Tacos de carne asada"], "cantA" : ["3"], "bebidas" : ["Agua de horchata"], "cantB" : ["1"], "precio" : "12.56", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Burrito Fiesta", "descripcion" : "Un delicioso burrito grande acompañado de una bebida refrescante.", "alimentos" : ["Burrito de pollo"], "cantA" : ["1"], "bebidas" : ["Agua de jamaica"], "cantB" : ["1"], "precio" : "6.52", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Enchiladas Delicias", "descripcion" : "Dos enchiladas con una bebida típica mexicana.", "alimentos" : ["Enchiladas de queso"], "cantA" : ["2"], "bebidas" : ["Agua de tamarindo"], "cantB" : ["1"], "precio" : "9.31", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Quesadilla Suprema", "descripcion" : "Una quesadilla grande con una bebida tradicional.", "alimentos" : ["Quesadilla de carne al pastor"], "cantA" : ["1"], "bebidas" : ["Refresco de cola"], "cantB" : ["1"], "precio" : "5.40", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Fajitas Festivas", "descripcion" : "Un plato de fajitas acompañado de una bebida refrescante.", "alimentos" : ["Fajitas mixtas (pollo y res)"], "cantA" : ["1"], "bebidas" : ["Agua de limón con chía"], "cantB" : ["1"], "precio" : "8.23", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Tostadas Tradición", "descripcion" : "Dos tostadas con una bebida fresca.", "alimentos" : ["Tostadas de tinga de pollo"], "cantA" : ["2"], "bebidas" : ["Refresco de manzana"], "cantB" : ["1"], "precio" : "7.62", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Tamalito Mexicano", "descripcion" : "Un tamal tradicional con una bebida mexicana.", "alimentos" : ["Tamal de rajas con queso"], "cantA" : ["1"], "bebidas" : ["Champurrado"], "cantB" : ["1"], "precio" : "4.48", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Sopes Especiales", "descripcion" : "Dos sopes con una bebida refrescante.", "alimentos" : ["Sopes de chorizo"], "cantA" : ["2"], "bebidas" : ["Agua de sandía"], "cantB" : ["1"], "precio" : "8.04", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Pozole Festín", "descripcion" : "Un tazón de pozole con una bebida tradicional.", "alimentos" : ["Pozole rojo"], "cantA" : ["1"], "bebidas" : ["Agua de piña"], "cantB" : ["1"], "precio" : "8.37", "estatus" : "Activo"}, ' +
-    '{"nombre" : "Combo Flautas Fiesta", "descripcion" : "Tres flautas con una bebida refrescante.", "alimentos" : ["Flautas de pollo"], "cantA" : ["3"], "bebidas" : ["Agua de melón"], "cantB" : ["1"], "precio" : "15.36", "estatus" : "Activo"} ' +
+    '{"nombre" : "Combo Pancakes", "descripcion" : "Pancakes con Smoothie de Fresa", "alimentos" : ["Pancakes"], "cantA" : ["2"], "bebidas" : ["Smoothie de fresa"], "cantB" : ["1"], "precio" : "53.55", "estatus" : "Activo"}, ' +
+    '{"nombre" : "Combo Churros", "descripcion" : "Churros con Café Frío", "alimentos" : ["Churros"], "cantA" : ["3"], "bebidas" : ["Café frío"], "cantB" : ["1"], "precio" : "41.85", "estatus" : "Activo"}, ' +
+    '{"nombre" : "Combo Tacos de Canasta", "descripcion" : "Tres tacos de canasta con Batido de Plátano", "alimentos" : ["Tacos de canasta"], "cantA" : ["3"], "bebidas" : ["Batido de plátano"], "cantB" : ["1"], "precio" : "48.60", "estatus" : "Activo"}, ' +
+    '{"nombre" : "Combo Ensalada César", "descripcion" : "Ensalada César con Agua fresca", "alimentos" : ["Ensalada César"], "cantA" : ["1"], "bebidas" : ["Aguas"], "cantB" : ["1"], "precio" : "34.43", "estatus" : "Activo"}, ' +
+    '{"nombre" : "Combo Torta de Milanesa", "descripcion" : "Torta de Milanesa con Agua de Horchata", "alimentos" : ["Torta de milanesa"], "cantA" : ["1"], "bebidas" : ["Agua de horchata"], "cantB" : ["1"], "precio" : "67.41", "estatus" : "Activo"}, ' +
+    '{"nombre" : "Combo Tostadas Tradición", "descripcion" : "Tostada de Aguacate con Jugo de Naranja", "alimentos" : ["Tostada de Aguacate"], "cantA" : ["1"], "bebidas" : ["Jugo de naranja"], "cantB" : ["1"], "precio" : "28.79", "estatus" : "Activo"}, ' +
+    '{"nombre" : "Combo Omelet de Champiñones", "descripcion" : "Omelette de Champiñones con Té Helado", "alimentos" : ["Omelette de champiñones"], "cantA" : ["1"], "bebidas" : ["Té helado"], "cantB" : ["1"], "precio" : "37.35", "estatus" : "Activo"}, ' +
+    '{"nombre" : "Combo Ensalada de Frutas", "descripcion" : "Ensalada de Frutas con Limonada", "alimentos" : ["Ensalada de frutas"], "cantA" : ["1"], "bebidas" : ["Limonada"], "cantB" : ["1"], "precio" : "30.87", "estatus" : "Activo"} ' +
     ']}';
 
+/********************/
+/* Inicialización de Combos con IDs Únicos */
+/********************/
 let combos = JSON.parse(text).combos.map((combo, index) => ({
     id: String(index + 1).padStart(4, '0'),
     nombre: combo.nombre,
@@ -82,9 +83,9 @@ let combos = JSON.parse(text).combos.map((combo, index) => ({
     estatus: combo.estatus
     }));
        
-/**********************************************************/
+/********************/
 /* Configuración de Colores para la Interfaz de Usuario */
-/**********************************************************/
+/********************/
 const colors = ['#FA812F'];
 const randomColor = colors[Math.floor(Math.random() * colors.length)];
 document.body.style.backgroundColor = randomColor;
@@ -92,9 +93,9 @@ const thElements = document.querySelectorAll('th');
 thElements.forEach(th => th.style.backgroundColor = randomColor);
         
 
-/**********************************************************/
+/********************/
 /* Función para Renderizar la Tabla de Combos */
-/**********************************************************/        
+/********************/        
 function renderTable() {
 const tableBody = document.querySelector('#comboTable tbody');
         tableBody.innerHTML = '';
@@ -111,38 +112,46 @@ const tableBody = document.querySelector('#comboTable tbody');
                 <td>
                     <button class="icon-button" onclick="editCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
                     <button class="icon-button" onclick="confirmDeleteCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
-                </td> `
-            ;
+                </td>
+            `;
             tableBody.appendChild(row);
         }
     );
 }
 
-/**********************************************************/
+/********************/
 /* Función para buscar un Combo en la tabla por todos sus campos */
-/**********************************************************/
+/********************/
 function searchTable() {
     const input = document.getElementById('searchInput');
     const filter = input.value.toLowerCase();
     const table = document.getElementById('comboTable');
     const tr = table.getElementsByTagName('tr');
     for (let i = 1; i < tr.length; i++) {
-        tr[i].style.display = 'none';
+tr[i].style.display = 'none';
         const td = tr[i].getElementsByTagName('td');
         for (let j = 1; j < td.length; j++) {
-            if (td[j]) {
-            if (td[j].innerHTML.toLowerCase().indexOf(filter) > - 1) {
-            tr[i].style.display = '';
-            break;
-                }
-            }
+if (td[j]) {
+if (td[j].innerHTML.toLowerCase().indexOf(filter) > - 1) {
+tr[i].style.display = '';
+        break;
         }
-    }
 }
+}
+}
+}
+function generarOpciones(selectId, items, selectedItem) {
+let options = '<option value="selecciona" data-precio="0">Selecciona</option>';
+        items.forEach(item => {
+        const selected = item.nombre === selectedItem ? 'selected' : '';
+                options += <option value="${item.nombre}" data-precio="${item.precio}" ${selected}>${item.nombre}</option>;
+        });
+        document.getElementById(selectId).innerHTML = options;
+        }
 
-/**********************************************************/
+/********************/
 /* Función para Calcular el Precio Total del Combo */
-/**********************************************************/
+/********************/
 function calcularPrecio() {
     // Obtén todos los elementos de alimentos y bebidas
     const alimentos = Array.from(document.querySelectorAll('#alimentosContainer .alimento'));
@@ -188,7 +197,7 @@ document.addEventListener('input', function(event) {
 function openComboForm(combo = {}) {
 Swal.fire({
 title: combo.id ? 'Editar Combo' : 'Agregar Combo',
-        html: 
+        html: `
                     <input type="hidden" id="comboId" value="${combo.id || ''}">
                     <input type="text" id="comboName" class="swal2-input" placeholder="Nombre" value="${combo.nombre || ''}">
                     <input type="text" id="comboDesc" class="swal2-input" placeholder="Descripción" value="${combo.descripcion || ''}">
@@ -205,7 +214,7 @@ title: combo.id ? 'Editar Combo' : 'Agregar Combo',
                         <option value="Activo" ${combo.estatus === 'Activo' ? 'selected' : ''}>Activo</option>
                         <option value="Inactivo" ${combo.estatus === 'Inactivo' ? 'selected' : ''}>Inactivo</option>
                     </select>
-                ,
+                `,
         focusConfirm: false,
         preConfirm: () => {
 const id = document.getElementById('comboId').value;
@@ -233,10 +242,13 @@ if (result.isConfirmed) {
 renderTable();
         }
 });
+        // Generar opciones para los selects iniciales
+        generarOpciones('alimento0', alimentos, combo.alimentos ? combo.alimentos[0] : '');
+        generarOpciones('bebida0', bebidas, combo.bebidas ? combo.bebidas[0] : '');
         }
 
 function generateAlimentosFields(alimentos = [], cantA = []) {
-    return alimentos.map((alimento, index) => 
+    return alimentos.map((alimento, index) => `
         <label for="alimento${index}">Alimento:</label>
         <select id="alimento${index}" class="swal2-input alimento">
             ${generarOpcionesHTML(alimento, 'alimento')}
@@ -244,11 +256,11 @@ function generateAlimentosFields(alimentos = [], cantA = []) {
         <label for="cantA${index}">#:</label>
         <input type="number" min="1" id="cantA${index}" class="swal2-input cantA" value="${cantA[index] || ''}" oninput="calcularPrecio()">
         <br>
-    ).join('');
+    `).join('');
 }
 
 function generateBebidasFields(bebidas = [], cantB = []) {
-    return bebidas.map((bebida, index) => 
+    return bebidas.map((bebida, index) => `
         <label for="bebida${index}">Bebida:</label>
         <select id="bebida${index}" class="swal2-input bebida">
             ${generarOpcionesHTML(bebida, 'bebida')}
@@ -256,9 +268,20 @@ function generateBebidasFields(bebidas = [], cantB = []) {
         <label for="cantB${index}">#:</label>
         <input type="number" min="1" id="cantB${index}" class="swal2-input cantB" value="${cantB[index] || ''}" oninput="calcularPrecio()">
         <br>
-    ).join('');
+    `).join('');
 }
 
+function generarOpcionesHTML(selectedItem, selectType) {
+    const items = selectType === 'alimento' ? alimentos : bebidas;
+    let options = '<option value="selecciona" data-precio="0">Selecciona</option>';
+    
+    items.forEach(item => {
+        const selected = item.nombre === selectedItem ? 'selected' : '';
+        options += <option value="${item.nombre}" data-precio="${item.precio}" ${selected}>${item.nombre}</option>;
+    });
+    
+    return options;
+}
 
 function agregarAlimentos() {
     const container = document.getElementById('alimentosContainer');
@@ -304,18 +327,18 @@ function agregarBebidas() {
     container.appendChild(document.createElement('br'));
 }
 
-  /**********************************************************/
+  /********************/
   /* Función para Editar un Combo */
-  /**********************************************************/
+  /********************/
 function editCombo(id) {
 const combo = combos.find(combo => combo.id === id);
         openComboForm(combo);
         }
 
 
-  /**********************************************************/
+  /********************/
   /* Función para confirmar la eliminación de un Combo */
-  /**********************************************************/
+  /********************/
 function confirmDeleteCombo(id) {
 Swal.fire({
 title: '¿Estás seguro?',
@@ -338,19 +361,20 @@ deleteCombo(id);
 }
 ;
 
-/**********************************************************/
-/* Función para eliminar un Combo */
-/**********************************************************/
-      function deleteCombo(id) {
-      const comboIndex = combos.findIndex(combo => combo.id === id);
-              if (comboIndex !== - 1) {
-      combos[comboIndex].estatus = 'Inactivo';
-              renderTable();
-      }
-      }
+
+  /********************/
+  /* Función para eliminar un Combo */
+  /********************/
+        function deleteCombo(id) {
+        const comboIndex = combos.findIndex(combo => combo.id === id);
+                if (comboIndex !== - 1) {
+        combos[comboIndex].estatus = 'Inactivo';
+                renderTable();
+        }
+        }
 ;
 
-  /**********************************************************/
+  /********************/
   /* Inicialización de la tabla al cargar la página */
-  /**********************************************************/
+  /********************/
         renderTable(); // Renderizar la tabla al cargar
