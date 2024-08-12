@@ -1,7 +1,7 @@
 /**********************************************************/
 /* Axolotl Technologies                                   */
 /* 26/06/2024                                             */
-/* Rey Adonaí Floreano Parra                              */
+/* Carlos Daniel Gomez Mendez                             */
 /* Gestión de usuarios para una aplicación web            */
 /**********************************************************/
 
