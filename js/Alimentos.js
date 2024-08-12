@@ -158,6 +158,8 @@ function openAlimentoForm(alimento = {}) {
                 <option value="Postres" ${alimento.categoria === 'Postres' ? 'selected' : ''}>Postres</option>
                 <option value="Fruta" ${alimento.categoria === 'Fruta' ? 'selected' : ''}>Fruta</option>
             </select>
+            <br>
+            ${alimento.estatus === 'Inactivo' ? `<label for="estatus">Activar:</label><input type="checkbox" id="estatus" class="swal2-checkbox">` : ''}
         `,
         focusConfirm: false,
         confirmButtonText: 'Guardar',
@@ -166,6 +168,7 @@ function openAlimentoForm(alimento = {}) {
             const descripcion = document.getElementById('descripcion').value.trim();
             const precio = document.getElementById('precio').value;
             const categoria = document.getElementById('categoria').value;
+            const estatus = alimento.estatus === 'Inactivo' && document.getElementById('estatus').checked ? 'Activo' : alimento.estatus;
 
             if (!nombre || !descripcion || !precio || !categoria) {
                 Swal.showValidationMessage('Por favor completa todos los campos.');
@@ -189,7 +192,7 @@ function openAlimentoForm(alimento = {}) {
                             descripcion,
                             precio: parseFloat(precio),
                             categoria,
-                            estatus: alimento.estatus || 'Activo' // Default to 'Activo' if not provided
+                            estatus
                         });
                     };
                     reader.readAsDataURL(fotoInput.files[0]);
@@ -201,7 +204,7 @@ function openAlimentoForm(alimento = {}) {
                         descripcion,
                         precio: parseFloat(precio),
                         categoria,
-                        estatus: alimento.estatus || 'Activo' // Default to 'Activo' if not provided
+                        estatus
                     });
                 }
             });
@@ -320,3 +323,4 @@ function logAlimentosToConsole() {
 /* Inicializar la renderización de la tabla al cargar la página */
 /**********************************************************/
 renderTable();
+
