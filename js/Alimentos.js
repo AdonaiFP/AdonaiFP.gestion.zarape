@@ -258,6 +258,7 @@ function editAlimento(id) {
 function confirmDeleteAlimento(id) {
     Swal.fire({
         title: '¿Estás seguro de inactivar este alimento?',
+        text: "Esta acción cambiará el estatus del producto a inactivo"
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
