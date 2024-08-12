@@ -257,12 +257,12 @@ function editAlimento(id) {
 /**********************************************************/
 function confirmDeleteAlimento(id) {
     Swal.fire({
-        title: '¿Estás seguro?',
+        title: '¿Estás seguro de inactivar este alimento?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
+        confirmButtonText: 'Sí, Inactivar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
