@@ -71,9 +71,6 @@ var text = '{"combos" : [ ' +
     ']}';
 
 /**********************************************************/
-/* Inicialización de Combos con IDs Únicos */
-/**********************************************************/
-/**********************************************************/
 /* Configuración de Colores para la Interfaz de Usuario */
 /**********************************************************/
 const colors = ['#FA812F'];
@@ -302,7 +299,4 @@ function deleteCombo(id) {
 /**********************************************************/
 /* Inicialización de la tabla al cargar la página */
 /**********************************************************/
-<<<<<<< HEAD
 renderTable(); // Renderizar la tabla al cargar
-=======
->>>>>>> 0bbd08462eec5b47b594b6f831e9a84892530d05
