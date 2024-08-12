@@ -100,7 +100,7 @@ const tableBody = document.querySelector('#comboTable tbody');
         tableBody.innerHTML = '';
         combos.forEach(combo => {
         const row = document.createElement('tr');
-                row.innerHTML = 
+                row.innerHTML = `
                 <td>${combo.id}</td>
                 <td>${combo.nombre}</td>
                 <td>${combo.descripcion}</td>
@@ -111,7 +111,7 @@ const tableBody = document.querySelector('#comboTable tbody');
                 <td>
                     <button class="icon-button" onclick="editCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/edit.png" alt="Editar"></button>
                     <button class="icon-button" onclick="confirmDeleteCombo('${combo.id}')"><img src="https://img.icons8.com/ios-filled/50/000000/trash.png" alt="Eliminar"></button>
-                </td>
+                </td> `
             ;
             tableBody.appendChild(row);
         }
